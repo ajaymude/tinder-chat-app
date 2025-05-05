@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { createServer } from "http";
+import cron from "node-cron";
+
 
 // routes
 import authRoutes from "./routes/authRoutes.js";
@@ -45,6 +47,10 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
 	});
 }
+
+cron.schedule('*/10 * * * *', () => {
+	console.log('Running every 10 minutes:', new Date().toISOString());
+  });
 
 httpServer.listen(PORT, () => {
 	console.log("Server started at this port:" + PORT);
